@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Edit profile{% endblock title %}
+{% block content %}
+    <h1>Edit personal data</h1>
+    <br/>
+    {{ user.profile.bio }}
+    <br/>
+    <div class="form-group">
+        <form method="POST">
+            {% csrf_token %}
+            <label >Username</label>
+            {{ form.username }} <br/>
+            <label >First Name</label>
+            {{ form.first_name }} <br/>
+            <label >Last Name</label>
+            {{ form.last_name }} <br/>
+            <label >E-mail</label>
+            {{ form.email }} <br/>
+            <button class="btn btn-info">Update</button><br/><br/>
+            <label >Password</label>
+            <h6>As django doesn't save raw Password, to modify it, click here.</h6>
+            <a class="btn btn-primary btn-sm" href="{% url "change-password" %}">Update Password</a>
+
+    </div>
+{% endblock content %}
+
+<!--{{ form.as_p }}-->

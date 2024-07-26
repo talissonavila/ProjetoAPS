@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  {{ post.title_tag }}
+{% endblock %}
+
+{% block content %}
+  <h1>{{ post.title }}</h1>
+  <small>By: {{ post.author }} - {{ post.post_date }} 
+  {% if user.is_authenticated %}
+    {% if user.id == post.author.id %}
+      <a class="btn btn-secondary btn-sm" href="{% url "update_post" post.pk %}">(Edit post)</a>
+      <a class="btn btn-danger btn-sm" href="{% url "delete_post" post.pk%}">(Delete post)</a>
+      </small>
+    {% endif %}
+  {% endif %}
+  <br/>
+  <hr />
+  {% if post.header_image %}
+    <img width="675" height="450" src="{{ post.header_image.url }}" alt="post header image">
+    <br/><br/>
+  {% endif %}
+  {{ post.body | safe }}
+  <hr>
+  {% if user.is_authenticated %}
+    <form action="{% url "like_post" post.pk %}" method="POST">
+      {% csrf_token %}
+      {% if liked %}
+        <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-outline-danger btn-sm">Unlike</button>
+      {% else %}
+          <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-outline-info btn-sm">Like</button> 
+      {% endif %}
+      - {{ total_likes }} Likes
+    </form>
+  {% else %}
+      <a href="{% url "login" %}">Login</a> to like - {{ total_likes }} Likes
+  {% endif %}
+  <hr>
+  <h3>Comment section</h3>
+  {% if not post.comments.all %}
+    <h6>No comments 😥😥</h6>
+    <a class="btn btn-secondary btn-sm" href="{% url "add_comment" post.pk %}">Be the first</a>
+  {% else %}
+  <a class="btn btn-outline-info btn-sm" href="{% url "add_comment" post.pk %}">Add comment</a>
+  <br/>
+    {% for comment in post.comments.all %}
+      <strong>{{ comment.name }} - {{ comment.date_added}}</strong>
+      <br/>
+      {{comment.body }}
+      <br/>
+    {% endfor %}
+  {% endif %}
+  <hr>
+
+  <div class="card mb-3">
+    <div class="row no-gutters">
+      <div class="col-md-2">
+        {% if post.author.profile.profile_picture %}
+          <img src="{{ post.author.profile.profile_picture.url }}" class="card-img" alt="Post author profile picture" width="300" height="200">
+          {% else %}
+          <img class="card-img" src="{% static 'theblog/images/blank_profile_picture.png' %}" width="300" height="200">
+        {% endif %}
+      </div>
+      <div class="col-md-10">
+        <div class="card-body">
+                    
+          <h5 class="card-title">{{ post.author.first_name}} {{ post.author.last_name }}</h5>
+          {% if post.author.profile.bio %}
+            <p class="card-text">{{ post.author.profile.bio }}</p>
+          {% else %}
+            <p>No bio text yet.</p>
+          {% endif %}
+          {% if post.author.profile.website_url or post.author.profile.github_url or post.author.profile.linkedin_url or post.author.profile.instagram_url %}
+          <p class="card-text">
+            <small class="text-muted">
+              Social Media:
+              {% if post.author.profile.website_url %}
+                <a href="{{ post.author.profile.website_url }}" target="_blank">Website</a> 
+              {% endif %}
+              {% if post.author.profile.github_url %}
+                <a href="{{ post.author.profile.github_url }}" target="_blank">GitHub</a>
+              {% endif %}
+              {% if post.author.profile.linkedin_url %}
+                <a href="{{ post.author.profile.linkedin_url }}" target="_blank">LinkedIn</a>
+              {% endif %}
+              {% if post.author.profile.instagram_url %}
+                <a href="{{ post.author.profile.instagram_url }}" target="_blank">Instagram</a>
+            {% endif %}
+            </small>
+          </p>
+          {% else %}
+            <p>No social media links yet.</p>
+          {% endif %}
+          {% if post.author.profile.id %}
+          <a class="btn btn-info btn-sm" href="{% url "show_profile_page" post.author.profile.id %}">Profile Page</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <br /><br />
+  <a class="btn btn-primary" href="{% url 'home' %}">Back to home page</a>
+{% endblock %}

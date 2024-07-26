@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Category - {{ slug }}{% endblock title %}
+{% block content %}
+{% if category_posts %}
+
+  <h1>{{ slug }}</h1>
+  <ul>
+      {% for post in category_posts %}
+        <li>
+            <a href="{% url 'article-detail' post.pk %}">
+            {{ post.title }}</a> - {{ post.author }} - {{ post.post_date}}
+                {% if user.is_authenticated %}
+                <small>
+                    <a class="btn btn-secondary btn-sm" href="{% url "update_post" post.pk %}">(Edit post)</a>
+                    <a class="btn btn-danger btn-sm" href="{% url "delete_post" post.pk%}">(Delete post)</a>
+                </small>
+                {% endif %}
+            <br/>
+            {{ post.body | slice:":200" | safe }} <br/><br/>    
+        </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+        <h3>This category doesn't have any Posts to it.</h3>
+    {% endif %}
+{% endblock %}

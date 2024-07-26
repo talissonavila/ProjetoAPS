@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <h1>User Profile</h1>
+    <hr>
+    <div class="card mb-3">
+        <div class="row no-gutters">
+          <div class="col-md-2">
+            {% if page_user.profile_picture %}
+              <img src="{{ page_user.profile_picture.url }}" class="card-img" alt="Post author profile picture" width="300" height="200">
+              {% else %}
+              <img class="card-img" src="{% static 'theblog/images/blank_profile_picture.png' %}" width="300" height="200">
+            {% endif %}
+          </div>
+          <div class="col-md-10">
+            <div class="card-body">
+                        
+              <h5 class="card-title">{{ page_user.user.first_name}} {{ page_user.user.last_name }}</h5>
+              {% if page_user.bio %}
+                <p class="card-text">{{ page_user.bio }}</p>
+              {% else %}
+                <p>No bio text yet.</p>
+              {% endif %}
+              {% if page_user.website_url or page_user.github_url or page_user.linkedin_url or page_user.instagram_url %}
+              <p class="card-text">
+                <small class="text-muted">
+                  Social Media:
+                  {% if page_user.website_url %}
+                    <a href="{{ page_user.website_url }}" target="_blank">Website</a> 
+                  {% endif %}
+                  {% if page_user.github_url %}
+                    <a href="{{ page_user.github_url }}" target="_blank">GitHub</a>
+                  {% endif %}
+                  {% if page_user.linkedin_url %}
+                    <a href="{{ page_user.linkedin_url }}" target="_blank">LinkedIn</a>
+                  {% endif %}
+                  {% if page_user.instagram_url %}
+                    <a href="{{ page_user.instagram_url }}" target="_blank">Instagram</a>
+                {% endif %}
+                </small>
+              </p>
+              {% else %}
+                <p>No social media links yet.</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    
+      <br /><br />
+      <a class="btn btn-primary" href="{% url 'home' %}">Back to home page</a>
+
+{% endblock %}
