@@ -8,18 +8,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('theblog', '0006_alter_post_body'),
+        ("theblog", "0006_alter_post_body"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='post',
-            name='snippet',
-            field=models.CharField(default='Click in like aboe to see full blog post', max_length=255),
+            model_name="post",
+            name="snippet",
+            field=models.CharField(default="Click in like aboe to see full blog post", max_length=255),
         ),
         migrations.AlterField(
-            model_name='post',
-            name='category',
-            field=models.CharField(default=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL), max_length=255),
+            model_name="post",
+            name="category",
+            field=models.CharField(
+                default=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+                max_length=255,
+            ),
         ),
     ]
