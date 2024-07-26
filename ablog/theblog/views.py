@@ -1,11 +1,13 @@
 from re import A
-from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
-from django.http import HttpResponseRedirect
-from django.urls import reverse_lazy, reverse
-from django.shortcuts import render, get_object_or_404
 
-from .models import Category, Post, Comment
-from .forms import PostForm, AddCommentForm
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse, reverse_lazy
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
+
+from .forms import AddCommentForm, PostForm
+from .models import Category, Comment, Post
 
 # self = request
 
@@ -22,7 +24,7 @@ class HomeView(ListView):
         context = super(HomeView, self).get_context_data(*args, **kwargs)
         context["category_menu"] = category_menu
         return context
-        
+
 
 class ArticleDetailView(DetailView):
     model = Post
@@ -31,13 +33,13 @@ class ArticleDetailView(DetailView):
     def get_context_data(self, *args, **kwargs):
         category_menu = Category.objects.all()
         context = super(ArticleDetailView, self).get_context_data(*args, **kwargs)
-        
+
         likes_in_post = get_object_or_404(Post, id=self.kwargs["pk"])
         total_likes = likes_in_post.total_likes()
         liked = False
 
         if likes_in_post.likes.filter(id=self.request.user.id).exists():
-           liked = True 
+           liked = True
 
         context["category_menu"] = category_menu
         context["total_likes"] = total_likes

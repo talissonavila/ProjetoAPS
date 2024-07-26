@@ -1,10 +1,10 @@
 from re import A
 from typing import Any
 
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
-from django.contrib.auth.models import User
 from django import forms
-
+from django.contrib.auth.forms import (PasswordChangeForm, UserChangeForm,
+                                       UserCreationForm)
+from django.contrib.auth.models import User
 from theblog.models import Profile
 
 
@@ -59,4 +59,3 @@ class ProfilePageForm(forms.ModelForm):
             'linkedin_url': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Inform your linkedin url.'}),
             'instagram_url': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Inform your instagram url.'}),
         }
-        

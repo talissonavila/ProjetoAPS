@@ -1,11 +1,11 @@
 repos:
--   repo: https://github.com/pycqa/isort
+-   repo: https://github.com/pycqa/isort  # sorts python imports
     rev: 5.12.0
     hooks:
     -   id: isort
         additional_dependencies: ['toml']
 
--   repo: https://github.com/psf/black
+-   repo: https://github.com/psf/black  # format python code
     rev: 22.10.0
     hooks:
     -   id: black
@@ -16,34 +16,34 @@ repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.3.0
     hooks:
-    -  id: trailing-whitespace
-    -  id: end-of-file-fixer
-    -  id: check-added-large-files
-    -  id: check-merge-conflict
+    -  id: trailing-whitespace  # Removes trailing whitespace from files.
+    -  id: end-of-file-fixer  # Ensures files end with a newline.
+    -  id: check-added-large-files  # Checks for large files added to the repository.
+    -  id: check-merge-conflict  # Checks for merge conflicts in files.
 
 -   repo: https://github.com/pre-commit/pygrep-hooks
     rev: v1.9.0  # Use the ref you want to point at
     hooks:
-    -   id: python-use-type-annotations
-    -   id: python-check-mock-methods
+    -   id: python-use-type-annotations  # Checks for missing type annotations in Python code.
+    -   id: python-check-mock-methods  # Checks for mock methods in Python code.
 
 -   repo: https://github.com/commitizen-tools/commitizen
     rev: v2.35.0
     hooks:
     -   id: commitizen
-        additional_dependencies: ['toml']
+        additional_dependencies: ['toml']  # Checks commit messages for proper formatting.
         stages: [commit-msg]
 
 -   repo: https://github.com/pycqa/pydocstyle
     rev: 6.1.1  # pick a git hash / tag to point to
     hooks:
-    -   id: pydocstyle
+    -   id: pydocstyle  # Checks Python docstrings for proper formatting.
         additional_dependencies: ['toml']
 
 -   repo: https://github.com/econchick/interrogate
     rev: 1.5.0
     hooks:
-      - id: interrogate
+      - id: interrogate  # Checks Python code for missing docstrings.
         additional_dependencies: ['toml']
 
 -   repo: https://github.com/hakancelik96/unimport

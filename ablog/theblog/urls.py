@@ -1,7 +1,8 @@
 from django.urls import path
 
-from .views import HomeView, ArticleDetailView, AddPostView, UpdatePostView, DeletePostView, AddCategoryView, CategoryView, CategoryListView, LikeView, AddCommentView
-
+from .views import (AddCategoryView, AddCommentView, AddPostView,
+                    ArticleDetailView, CategoryListView, CategoryView,
+                    DeletePostView, HomeView, LikeView, UpdatePostView)
 
 urlpatterns = [
     path('', HomeView.as_view(), name="home"),

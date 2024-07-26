@@ -1,8 +1,7 @@
-import profile
-from django.db import models
-from django.contrib.auth.models import User
-from django.urls import reverse
 from ckeditor.fields import RichTextField
+from django.contrib.auth.models import User
+from django.db import models
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -11,14 +10,14 @@ class Category(models.Model):
         verbose_name_plural = "Categories"
 
     name = models.CharField(max_length=255)
-    
+
     def __str__(self) -> str:
         return self.name
-    
+
     def get_absolute_url(self):
         return reverse("home")
         #return reverse("article-detail", args=(str(self.id)) )
-    
+
 
 class Post(models.Model):
     title = models.CharField(max_length=255)
@@ -30,7 +29,7 @@ class Post(models.Model):
     snippet = models.CharField(max_length=255)
     likes = models.ManyToManyField(User, related_name='blog_posts')
     header_image = models.ImageField(null=True, blank=True, upload_to="images/")
-    
+
     def __str__(self):
         return self.title + ' | ' + str(self.author)
 
@@ -40,10 +39,10 @@ class Post(models.Model):
     def get_absolute_url(self):
         # para redirecionar para o post recem criado
         #return reverse("article-detail", args=(str(self.id)) )
-        
+
         # para redirecionar para o home page
         return reverse("home")
-            
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
@@ -69,4 +68,3 @@ class Comment(models.Model):
 
     def __str__(self):
         return '%s - %s ' % (self.post.title, self.name)
-        

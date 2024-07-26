@@ -1,15 +1,15 @@
 from django import forms
 
-from .models import Post, Category,  Comment
+from .models import Category, Comment, Post
 
 
 class CategoryChoices:
     def __init__(self) -> None:
          self.choice_list = []
-    
+
     def append_choices_item(self, item):
         self.choice_list.append(item)
-    
+
     def get_choices(self):
         choices = Category.objects.all().values_list('name', 'name')
         for item in choices:
