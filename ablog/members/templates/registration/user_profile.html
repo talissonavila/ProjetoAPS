@@ -14,7 +14,7 @@
           </div>
           <div class="col-md-10">
             <div class="card-body">
-                        
+
               <h5 class="card-title">{{ page_user.user.first_name}} {{ page_user.user.last_name }}</h5>
               {% if page_user.bio %}
                 <p class="card-text">{{ page_user.bio }}</p>
@@ -26,7 +26,7 @@
                 <small class="text-muted">
                   Social Media:
                   {% if page_user.website_url %}
-                    <a href="{{ page_user.website_url }}" target="_blank">Website</a> 
+                    <a href="{{ page_user.website_url }}" target="_blank">Website</a>
                   {% endif %}
                   {% if page_user.github_url %}
                     <a href="{{ page_user.github_url }}" target="_blank">GitHub</a>
@@ -46,8 +46,8 @@
           </div>
         </div>
       </div>
-    
-    
+
+
       <br /><br />
       <a class="btn btn-primary" href="{% url 'home' %}">Back to home page</a>
 
