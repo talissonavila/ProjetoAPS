@@ -25,7 +25,6 @@ class Category(models.Model):
 
     def get_absolute_url(self):
         return reverse("home")
-        # return reverse("article-detail", args=(str(self.id)) )
 
 
 class Post(models.Model):
@@ -64,10 +63,7 @@ class Post(models.Model):
 
     def get_absolute_url(self) -> str:
         """Returns the absolute URL for the post."""
-        # para redirecionar para o home page
         return reverse("home")
-        # para redirecionar para o post recem criado
-        # return reverse("article-detail", args=(str(self.id)) )
 
 
 class Profile(models.Model):
