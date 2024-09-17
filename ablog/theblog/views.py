@@ -1,10 +1,17 @@
-from django.http import HttpResponseRedirect
+import json
+import logging
+
+import requests
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, reverse_lazy
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from .forms import AddCommentForm, PostForm
 from .models import Category, Comment, Post
+
+logger = logging.getLogger(__name__)
 
 
 class HomeView(ListView):
@@ -208,3 +215,46 @@ def LikeView(request, pk) -> object:
         post.likes.add(request.user)
         liked = True
     return HttpResponseRedirect(reverse("article-detail", args=[str(pk)]))
+
+
+@csrf_exempt
+def generate_text_from_title(request) -> JsonResponse:
+    """Generate a text based on post title.
+
+    Args:
+        request (object): Request object.
+
+    Returns:
+        JsonResponse: text or error message.
+    """
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            post_title = data.get("title")
+
+            if not post_title:
+                return JsonResponse({"error": "Title is required"}, status=400)
+
+            # Chamada à API do Llama 3
+            api_url = "http://localhost:11434/api/generate"
+            prompt = f"Create a post in medium site stylish based on this title: {post_title}"
+            model = "llama3"
+            payload = {"prompt": prompt, "model": model, "stream": False}
+
+            response = requests.post(api_url, json=payload)
+
+            if response.status_code == 200:
+                response_data = response.json()
+
+                generated_text = response_data.get("response", "").strip()
+                if generated_text:
+                    return JsonResponse({"text": generated_text}, status=200)
+                else:
+                    return JsonResponse({"error": "Failed to generate text from API response"}, status=500)
+            else:
+                return JsonResponse({"error": "API request failed"}, status=500)
+
+        except Exception as e:
+            return JsonResponse({"error": f"Exception occurred: {str(e)}"}, status=500)
+
+    return JsonResponse({"error": "Invalid request method"}, status=405)

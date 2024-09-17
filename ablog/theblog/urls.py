@@ -11,6 +11,7 @@ from .views import (
     HomeView,
     LikeView,
     UpdatePostView,
+    generate_text_from_title,
 )
 
 urlpatterns = [
@@ -24,4 +25,5 @@ urlpatterns = [
     path("category-list/", CategoryListView, name="category-list"),
     path("like/<int:pk>", LikeView, name="like_post"),
     path("article/<int:pk>/comment", AddCommentView.as_view(), name="add_comment"),
+    path("generate_text_from_title/", generate_text_from_title, name="generate_text_from_title"),
 ]
